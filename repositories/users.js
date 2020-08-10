@@ -37,13 +37,39 @@ class UsersRepository {
     randomID(){
         return crypto.randomBytes(4).toString('hex');
     }
+
+    async getOne(id){
+        const records = await this.getAll();
+        return records.find(record => record.id === id);
+    }
+
+    async delete(id) {
+        const records = await this.getAll();
+        const filterRecords = records.filter(record=> record.id!=id);
+        this.writeAll(filterRecords);
+    }
+
+    async update(id ,attrs){
+        const records = await this.getAll();
+        const record = records.find(record => record.id=== id);
+        
+        if(!record){
+            throw new Error("No entry with given record");
+        }
+
+        Object.assign(record,attrs); // copies entries from attrs and assigns to record
+        await this.writeAll(records);
+    }
 }
 
 const test = async () =>{
     const repo = new UsersRepository("users.json");
+    const user = await repo.getOne("49945551");
+    console.log(user);
+    await repo.update("49945551",{password:"hoiii"});
 
-    await repo.create({email : "test@test.com" , password : 'password'});
-    console.log(await repo.getAll());
+    //await repo.create({email : "test@test.com" , password : 'password'});
+    //console.log(await repo.getAll());
 };
 
 test();
