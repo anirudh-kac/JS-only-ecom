@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-class Users {
+class UsersRepository {
     constructor(filename){
         if(!filename){
             throw new Error("No filename provided");
@@ -14,6 +14,30 @@ class Users {
         }
 
     }
+
+    async getAll(){
+        return JSON.parse(await fs.promises.readFile(this.filename,{
+            encoding:'utf-8'
+        }));
+ 
+    }
+
+    async create(attrs){
+        const records = await this.getAll();
+        records.push(attrs);
+        this.writeAll(records);
+    }
+
+    async writeAll(records){
+        await fs.promises.writeFile(this.filename,JSON.stringify(records,null,2));
+    }
 }
 
-const users = new Users("users.json");
+const test = async () =>{
+    const repo = new UsersRepository("users.json");
+
+    await repo.create({email : "test@test.com" , password : 'password'});
+    console.log(await repo.getAll());
+};
+
+test();
