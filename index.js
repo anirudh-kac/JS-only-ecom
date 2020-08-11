@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const usersRepo = require('./repositories/users');
 
 const app = express();
 app.use(bodyParser.urlencoded({extended:true}));
@@ -29,8 +30,9 @@ app.get("/",(req,res)=>{
     res.send(`
     <div>
     <form method = "POST">
-    <input name="name" placeholder="name">
+    <input name="email" placeholder="email">
     <input name = "password" placeholder ="pass">
+    <input name = "passwordConfirmation" placeholder ="pass confirm">
     <button type  = "submit">Submit</button>
     </form>
     </div>
@@ -40,8 +42,21 @@ app.get("/",(req,res)=>{
 
 
 
-app.post("/",(req,res)=>{
-    console.log(req.body);
+app.post("/",async (req,res)=>{
+    //console.log(req.body);
+    const {email,password,passwordConfirmation} = req.body;
+    const existingUser = await usersRepo.getOneBy({email});
+    if(existingUser){
+        return res.send('Email in use');
+    }
+
+    if(password!==passwordConfirmation){
+        return res.send("Passwords must match");
+    }
+
+    let user  = await usersRepo.create({email,password});
+    
+    
     res.send("Account Created");
 });
 
