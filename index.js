@@ -1,9 +1,13 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const cookieSession = require('cookie-session');
 const usersRepo = require('./repositories/users');
 
 const app = express();
 app.use(bodyParser.urlencoded({extended:true}));
+app.use(cookieSession({
+    keys:["yichurandom123cookiekhatre"]
+}))
 
 // const bodyParser = (req,res,next) => {
 //     if(req.method ==="POST"){
@@ -29,6 +33,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.get("/",(req,res)=>{
     res.send(`
     <div>
+    Your id is ${req.session.userId}
     <form method = "POST">
     <input name="email" placeholder="email">
     <input name = "password" placeholder ="pass">
@@ -54,8 +59,10 @@ app.post("/",async (req,res)=>{
         return res.send("Passwords must match");
     }
 
-    let user  = await usersRepo.create({email,password});
-    
+    const user  = await usersRepo.create({email,password});
+
+    //stores id of user in cookies
+    req.session.userId = user.id;
     
     res.send("Account Created");
 });
