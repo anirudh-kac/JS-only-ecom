@@ -9,26 +9,6 @@ app.use(cookieSession({
     keys:["yichurandom123cookiekhatre"]
 }))
 
-// const bodyParser = (req,res,next) => {
-//     if(req.method ==="POST"){
-//         reqData = {};
-//         req.on('data',data=>{
-//         const parsed = data.toString('utf8').split('&');
-//         for(let pair of parsed){
-//             const [key,value] = pair.split('=');
-//             reqData[key] = value
-//         }
-//         req.body = reqData;
-//         next();
-//     });
-//     }else{
-//         next();
-//     }
-// }
-
-
-// app.use(bodyParser);
-
 
 app.get("/signup",(req,res)=>{
     res.send(`
@@ -92,8 +72,12 @@ app.post("/signin",async (req,res)=>{
         return res.send("Email not found");
     }
 
-    if(user.password!==password){
-        return res.send("Invalid Password");
+    const validPassword = await usersRepo.comparePasswords(
+        user.password,password
+    );
+
+    if(!validPassword){
+        return res.send('Invalid Password');
     }
 
     req.session.userId = user.id;

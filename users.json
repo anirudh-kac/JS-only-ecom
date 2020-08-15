@@ -21,5 +21,20 @@
     "email": "hoo@poo.com",
     "password": "91f67777dd63052d94dc4eb188b74bd1520a05676ea672b7c9f76c9c9179e73f99daa73f1a31252c7a7eff37384826a6368a8e8c8db90678d15bb501adb3.730eb4ef4abf5710",
     "id": "05c148f5"
+  },
+  {
+    "email": "testfinal@test.com",
+    "password": "0b781efe609447a402663fe3e4b307d900af7946ca4d15c66cb5dd7a556fdb091d7e6b3080ef294757a7a71acbbe0287c7da44194dc05aed957b192ddd0c.35f6659aed6cfea8",
+    "id": "261c027e"
+  },
+  {
+    "email": "myemail@gmail.com",
+    "password": "f377b181889c27c192fd82134dc584a99d0d0fb07f2b82732911f8859b26d5757f0f0507a47f50a3cd4f0f6932cb2e8d00d997eaf3798e795852020795e6.4d4dd48bb18fbfee",
+    "id": "5a3e3e2f"
+  },
+  {
+    "email": "my@hi.com",
+    "password": "d2e485988d112685b9ec6e41fc0e2ca7addb7c51ca3033f117ca4921bc339574b7690be2d2156f5d8cdfc18f1ed9454b36fb323eddfa281b1725a1a02c4249a9.d5aefe5560d8951b",
+    "id": "6b5c72ab"
   }
 ]

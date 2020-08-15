@@ -30,7 +30,7 @@ class UsersRepository {
         //{email,password}
         attrs.id = this.randomID();
         const salt = crypto.randomBytes(8).toString('hex');
-        const buf = await scrypt(attrs.password,salt,62);
+        const buf = await scrypt(attrs.password,salt,64);
 
         const records = await this.getAll();
         const record = {
@@ -47,9 +47,9 @@ class UsersRepository {
         //saved - > hashed.salt (hex)
         //supplied -> plain pass
         const [hashed,salt] = saved.split('.');
-        const hashedSupplied = await scrypt(supplied,salt,64);
+        const hashedSuppliedBuf= await scrypt(supplied,salt,64);
 
-        return (hashed === hashedSupplied)
+        return (hashed ==hashedSuppliedBuf.toString('hex'))
 
     }
 
