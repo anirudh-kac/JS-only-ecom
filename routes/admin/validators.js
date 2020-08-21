@@ -11,11 +11,13 @@ module.exports = {
                             if(existingUser){
                                 throw new Error("Email in use");
                             }
-                        } ),
+                        } )
+                        .withMessage('Must be a valid email'),
 
     requirePassword : check('password')
                             .trim()
-                            .isLength({min:4,max:20}),
+                            .isLength({min:4,max:20})
+                            .withMessage("Must be between 4 and 20 characters"),
 
     requirePasswordConfirmation : check("passwordConfirmation")
                                         .trim()
