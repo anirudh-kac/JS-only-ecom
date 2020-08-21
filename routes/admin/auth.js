@@ -5,7 +5,7 @@ const usersRepo = require('../../repositories/users');
 const router = express.Router();
 const signupTemplate = require('../../views/admin/auth/signup');
 const signinTemplate = require('../../views/admin/auth/signin');
-const {requireEmail} = require('./validators')
+const {requireEmail,requirePassword,requirePasswordConfirmation} = require('./validators')
 router.get("/signup",(req,res)=>{
     res.send(signupTemplate({req}));
 });
@@ -19,6 +19,9 @@ router.post("/signup",[
 ],async (req,res)=>{
     const errors = validationResult(req);
     console.log(errors);
+    if(!errors.isEmpty()){
+        res.send(signupTemplate({req,errors}));
+    }
     const {email,password,passwordConfirmation} = req.body;
 
     const user  = await usersRepo.create({email,password});
