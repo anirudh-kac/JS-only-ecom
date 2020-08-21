@@ -27,7 +27,7 @@ router.post("/signup",[
     const user  = await usersRepo.create({email,password});
     req.session.userId = user.id;
     
-    res.send("Account Created");
+    return res.send("Account Created");
 });
 
 router.get('/signout',(req,res)=>{
