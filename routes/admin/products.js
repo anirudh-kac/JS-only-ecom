@@ -17,13 +17,23 @@ router.get('/admin/products/new',(req,res)=>{
     return res.send(productsNewTemplate({}));
 });
 
-router.post('/admin/products/new',[requireTitle,requirePrice],upload.single('image'),(req,res)=>{
+
+//middleware order from left to right. Body must be parsed before validation  (multer deals with text now , instead  of body-parser)
+
+router.post('/admin/products/new',upload.single('image'),[requireTitle,requirePrice], async (req,res)=>{
 
     const errors = validationResult(req);
+
+    if(!errors.isEmpty()){
+        return res.send(productsNewTemplate({errors}));
+    }
     
-    console.log(req.file);
+    const image = req.file.buffer.toString('base64');
+    const {title,price} = req.body;
+
+    await productsRepo.create({title,price,image});
     return res.send('submitted');
-})
+});
 
 
 
