@@ -33,7 +33,7 @@ router.post('/admin/products/new',
     const {title,price} = req.body;
     await productsRepo.create({title,price,image});
 
-    return res.send('submitted');
+    res.redirect('/admin/products');
 });
 
 
