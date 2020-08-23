@@ -45,15 +45,10 @@ router.post("/signin",
     [requireValidPasswordForUser,requireEmailExists],
     handleErrors(signinTemplate),
     async (req,res)=>{
-    const errors = validationResult(req);
-    
-    if(!errors.isEmpty()){
-        return res.send(signinTemplate({errors}));
-    }
     const {email} = req.body;
     const user = await usersRepo.getOneBy({email});
     req.session.userId = user.id;
-    res.redirect('/admin/products');
+    return res.redirect('/admin/products');
 });
 
 module.exports = router;
